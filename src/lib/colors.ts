@@ -31,4 +31,5 @@ class HSLGenerator {
 
 const hslGenerator = new HSLGenerator(GRID_SIZE);
 
-export const getRainbowHSL = (y, x) => hslGenerator.getColor(y, x);
+export const getRainbowHSL = (y: number, x: number) =>
+  hslGenerator.getColor(y, x);
