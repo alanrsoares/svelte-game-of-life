@@ -51,17 +51,12 @@
     font-size: 16px;
   }
 
-  * {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  }
-
   main {
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: #333;
+    background-color: #333;
     height: 100vh;
   }
 
@@ -70,7 +65,7 @@
   }
 
   .controls {
-    margin: 10px;
+    margin: 0.75rem;
     display: flex;
     justify-content: space-around;
     width: 360px;
