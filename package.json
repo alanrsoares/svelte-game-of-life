@@ -8,7 +8,7 @@
     "start": "sirv public",
     "validate": "svelte-check",
     "predeploy": "yarn build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d public"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",
