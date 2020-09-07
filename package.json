@@ -2,7 +2,7 @@
   "name": "svelte-game-of-life",
   "version": "1.0.0",
   "license": "MIT",
-  "homepage": "https://alanrsoares.github.io/svelte-game-of-life",
+  "homepage": "https://alanrsoares.github.io/svelte-game-of-life/",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
