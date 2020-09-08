@@ -5,10 +5,9 @@
   export let rows = [];
 
   const handleMouseEvent = ({ y, x }: Point) => (e: MouseEvent) => {
-    if (e.buttons !== 1) {
-      return;
+    if (e.button === 0 && e.buttons === 1) {
+      rows[y][x] = !rows[y][x];
     }
-    rows[y][x] = !rows[y][x];
   };
 </script>
 
