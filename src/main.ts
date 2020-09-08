@@ -1,5 +1,3 @@
-import { register } from "./serviceWorker";
-
 import { GRID_SIZE } from "./lib/config";
 
 import App from "./App.svelte";
@@ -12,5 +10,3 @@ const app = new App({
 });
 
 export default app;
-
-register();
