@@ -5,7 +5,7 @@
   export let rows = [];
 
   const handleMouseEvent = ({ y, x }: Point) => (e: MouseEvent) => {
-    if (e.which !== 1) {
+    if (e.buttons !== 1) {
       return;
     }
     rows[y][x] = !rows[y][x];
