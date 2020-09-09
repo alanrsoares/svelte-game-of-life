@@ -86,18 +86,22 @@
 <main>
   <h1>Svelte Game of Life</h1>
   <div class="controls">
-    <Button color="darkslateblue" text="reset" on:click={handleReset}>
+    <Button color="darkslateblue" label="reset" on:click={handleReset}>
       <FaSync />
     </Button>
-    <Button color="darkslategray" text="random" on:click={handleRandom}>
+    <Button color="darkslategray" label="random" on:click={handleRandom}>
       <FaRandom />
     </Button>
-    <Button color="teal" disabled={isPlaying} text="next" on:click={handleNext}>
+    <Button
+      color="teal"
+      disabled={isPlaying}
+      label="next"
+      on:click={handleNext}>
       <FaStepForward />
     </Button>
     <Button
       color={isPlaying ? 'darkred' : 'darkgreen'}
-      text={isPlaying ? 'pause' : 'play'}
+      label={isPlaying ? 'pause' : 'play'}
       on:click={handleToggleAtuplay}>
       <svelte:component this={isPlaying ? FaPause : FaPlay} />
     </Button>

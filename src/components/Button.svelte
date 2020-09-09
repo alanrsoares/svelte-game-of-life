@@ -1,7 +1,7 @@
 <script lang="ts">
   import { opacify, lighten } from "polished";
 
-  export let text: string;
+  export let label: string;
   export let color = "#333";
   export let disabled: boolean;
 
@@ -48,6 +48,7 @@
 <button
   on:click
   {disabled}
-  style="--color:{background}; --border-color:{borderColor}">
-  <slot>{text}</slot>
+  style="--color:{background}; --border-color:{borderColor}"
+  aria-label={label}>
+  <slot>{label}</slot>
 </button>
