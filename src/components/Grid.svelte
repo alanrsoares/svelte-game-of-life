@@ -1,15 +1,18 @@
 <script lang="ts">
   import { getRainbowHSL } from "../lib/colors";
-  import type { Point } from "../lib/types";
+  import type { Point, Grid } from "../lib/types";
+  import { SIZES } from "../lib/config";
+
   import Cell from "./Cell.svelte";
 
-  export let rows: boolean[][] = [];
-
+  export let grid: Grid = [];
   export let sizeIndex: number = 0;
+
+  $: gridSize = SIZES[sizeIndex].grid;
 
   const handleMouseEvent = ({ y, x }: Point) => (e: MouseEvent) => {
     if (e.button === 0 && e.buttons === 1) {
-      rows[y][x] = !rows[y][x];
+      grid[y][x] = !grid[y][x];
     }
   };
 </script>
@@ -29,15 +32,15 @@
 </style>
 
 <div class="container">
-  {#each rows as cells, y}
+  {#each grid as cells, y}
     <div class="row">
       {#each cells as cell, x}
         <Cell
+          {sizeIndex}
           isAlive={cell}
           on:mouseover={handleMouseEvent({ y, x })}
           on:mousedown={handleMouseEvent({ y, x })}
-          bg={getRainbowHSL(y, x)}
-          {sizeIndex} />
+          bg={getRainbowHSL(y, x, gridSize)} />
       {/each}
     </div>
   {/each}

@@ -1,5 +1,3 @@
-import { GRID_SIZE } from "./config";
-
 class HSLGenerator {
   #hueIncrement: number;
   #saturation: number;
@@ -11,6 +9,18 @@ class HSLGenerator {
     this.#saturation = options.saturation * 100;
     this.#lightness = options.lightness * 100;
     this.#cache = {};
+  }
+
+  public withHue(hueLength: number) {
+    const nextHueIncrement = 360 / Math.sqrt(hueLength ** 2 * 2);
+
+    if (nextHueIncrement !== this.#hueIncrement) {
+      this.#cache = {};
+    }
+
+    this.#hueIncrement = nextHueIncrement;
+
+    return this;
   }
 
   public getColor(y: number, x: number) {
@@ -29,7 +39,10 @@ class HSLGenerator {
   }
 }
 
-const hslGenerator = new HSLGenerator(GRID_SIZE);
+const hslGenerator = new HSLGenerator();
 
-export const getRainbowHSL = (y: number, x: number) =>
-  hslGenerator.getColor(y, x);
+export const getRainbowHSL = (y: number, x: number, hueLength?: number) => {
+  return hueLength
+    ? hslGenerator.withHue(hueLength).getColor(y, x)
+    : hslGenerator.getColor(y, x);
+};

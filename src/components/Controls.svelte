@@ -7,7 +7,7 @@
   import FaMinus from "svelte-icons/fa/FaMinus.svelte";
   import FaPlus from "svelte-icons/fa/FaPlus.svelte";
 
-  import { sizes } from "../lib/config";
+  import { SIZES } from "../lib/config";
 
   import Button from "./Button.svelte";
 
@@ -37,6 +37,26 @@
 
   .control-icon {
     height: 1rem;
+  }
+
+  .size-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .range {
+    appearance: none;
+    cursor: pointer;
+    border-radius: 0.75rem;
+    height: 0.5rem;
+    outline: none;
+    margin: 0 0.5rem;
+    transition: all 0.15s ease-in;
+  }
+
+  .range:focus {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
   }
 </style>
 
@@ -78,11 +98,12 @@
       </div>
     </Button>
     <input
+      class="range"
       type="range"
       name="grid-size"
       bind:value={gridSize}
       min={0}
-      max={sizes.length - 1}
+      max={SIZES.length - 1}
       step={1}
       disabled={isPlaying} />
     <Button

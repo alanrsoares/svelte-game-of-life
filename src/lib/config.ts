@@ -1,25 +1,22 @@
-export const GRID_SIZE = 16;
-export const CELL_SIZE = "1.25rem";
-
-export const sizes = [
+export const SIZES = [
   {
-    cells: 16,
-    cellSize: "1.25rem",
+    grid: 16,
+    cell: "1.25rem",
   },
   {
-    cells: 32,
-    cellSize: ".75rem",
+    grid: 32,
+    cell: ".75rem",
   },
   {
-    cells: 48,
-    cellSize: ".5rem",
+    grid: 48,
+    cell: ".5rem",
   },
   {
-    cells: 64,
-    cellSize: ".375rem",
+    grid: 64,
+    cell: ".375rem",
   },
   {
-    cells: 96,
-    cellSize: ".25rem",
+    grid: 96,
+    cell: ".25rem",
   },
 ];

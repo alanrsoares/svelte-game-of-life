@@ -5,6 +5,8 @@
   "compilerOptions": {
     "allowJs": true,
     "esModuleInterop": true,
+    "baseUrl": ".",
+    "rootDir": "./src",
     "types": ["svelte", "node"]
   }
 }

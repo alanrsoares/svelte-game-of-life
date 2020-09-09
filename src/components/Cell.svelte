@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { sizes } from "../lib/config";
+  import { SIZES } from "../lib/config";
 
   export let isAlive: boolean = false;
   export let bg: string = "#222";
   export let sizeIndex: number = 0;
 
-  $: cellSize = sizes[sizeIndex].cellSize;
+  $: cellSize = SIZES[sizeIndex].cell;
 </script>
 
 <style>
