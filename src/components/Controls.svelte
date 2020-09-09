@@ -72,7 +72,7 @@
       bg="#555"
       on:click={actions.decrementGridSize}
       buttonSize="2.5rem"
-      label="increase grid size">
+      label="decrease grid size">
       <div class="control-icon">
         <FaMinus style="transform:scale(1.5)" />
       </div>
@@ -90,7 +90,7 @@
       bg="#555"
       on:click={actions.incrementGridSize}
       buttonSize="2.5rem"
-      label="decrease grid size">
+      label="increase grid size">
       <div class="control-icon">
         <FaPlus />
       </div>
