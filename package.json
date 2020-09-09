@@ -35,6 +35,7 @@
     "normalize.css": "^8.0.1",
     "polished": "^3.6.6",
     "ramda": "^0.27.1",
-    "sirv-cli": "^1.0.6"
+    "sirv-cli": "^1.0.6",
+    "svelte-icons": "^2.1.0"
   }
 }

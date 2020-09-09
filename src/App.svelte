@@ -1,4 +1,10 @@
 <script lang="ts">
+  import FaSync from "svelte-icons/fa/FaSync.svelte";
+  import FaRandom from "svelte-icons/fa/FaRandom.svelte";
+  import FaPlay from "svelte-icons/fa/FaPlay.svelte";
+  import FaPause from "svelte-icons/fa/FaPause.svelte";
+  import FaStepForward from "svelte-icons/fa/FaStepForward.svelte";
+
   import { createGrid, createRandomGrid } from "./lib/utils";
   import { nextState } from "./lib/game";
   import { GRID_SIZE } from "./lib/config";
@@ -21,6 +27,10 @@
 
   function handleRandom() {
     grid = createRandomGrid(GRID_SIZE);
+  }
+
+  function handleNext() {
+    grid = nextState(grid);
   }
 
   function handleToggleAtuplay() {
@@ -65,22 +75,32 @@
   }
 
   .controls {
-    margin: 0.75rem;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
     display: flex;
-    justify-content: space-around;
-    width: 360px;
+    justify-content: space-between;
+    width: 20rem;
   }
 </style>
 
 <main>
   <h1>Svelte Game of Life</h1>
   <div class="controls">
-    <Button color="darkslateblue" text="reset" on:click={handleReset} />
-    <Button text="random" on:click={handleRandom} />
+    <Button color="darkslateblue" text="reset" on:click={handleReset}>
+      <FaSync />
+    </Button>
+    <Button color="darkslategray" text="random" on:click={handleRandom}>
+      <FaRandom />
+    </Button>
+    <Button color="teal" disabled={isPlaying} text="next" on:click={handleNext}>
+      <FaStepForward />
+    </Button>
     <Button
       color={isPlaying ? 'darkred' : 'darkgreen'}
       text={isPlaying ? 'pause' : 'play'}
-      on:click={handleToggleAtuplay} />
+      on:click={handleToggleAtuplay}>
+      <svelte:component this={isPlaying ? FaPause : FaPlay} />
+    </Button>
   </div>
   <Grid rows={grid} />
   <Profiler {frames} {startedPlayingAt} />
