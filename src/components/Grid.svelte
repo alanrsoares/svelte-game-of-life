@@ -1,8 +1,9 @@
 <script lang="ts">
   import { getRainbowHSL } from "../lib/colors";
   import type { Point } from "../lib/types";
+  import Cell from "./Cell.svelte";
 
-  export let rows = [];
+  export let rows: boolean[][] = [];
 
   const handleMouseEvent = ({ y, x }: Point) => (e: MouseEvent) => {
     if (e.button === 0 && e.buttons === 1) {
@@ -12,33 +13,11 @@
 </script>
 
 <style>
-  :root {
-    --cell-color: #222;
-    --cell-size: 7px;
-  }
-
   .container {
-    border: solid 0.25rem var(--cell-color);
+    border: solid 0.25rem #222;
     border-radius: 0.75rem;
     padding: 0.125rem;
     margin: auto;
-  }
-
-  .cell {
-    width: var(--cell-size);
-    height: var(--cell-size);
-    background-color: var(--cell-color);
-    transition: background-color 0.1s ease-out;
-    border-radius: 50%;
-    margin: 1px;
-  }
-
-  .cell:hover {
-    cursor: pointer;
-  }
-
-  .alive {
-    background-color: var(--color);
   }
 
   .row {
@@ -51,12 +30,11 @@
   {#each rows as cells, y}
     <div class="row">
       {#each cells as cell, x}
-        <div
-          class="cell"
-          class:alive={cell}
+        <Cell
+          isAlive={cell}
           on:mouseover={handleMouseEvent({ y, x })}
           on:mousedown={handleMouseEvent({ y, x })}
-          style="--color:{getRainbowHSL(y, x)}" />
+          bg={getRainbowHSL(y, x)} />
       {/each}
     </div>
   {/each}

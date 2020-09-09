@@ -1,17 +1,11 @@
 <script lang="ts">
-  import FaSync from "svelte-icons/fa/FaSync.svelte";
-  import FaRandom from "svelte-icons/fa/FaRandom.svelte";
-  import FaPlay from "svelte-icons/fa/FaPlay.svelte";
-  import FaPause from "svelte-icons/fa/FaPause.svelte";
-  import FaStepForward from "svelte-icons/fa/FaStepForward.svelte";
-
   import { createGrid, createRandomGrid } from "./lib/utils";
   import { nextState } from "./lib/game";
   import { GRID_SIZE } from "./lib/config";
 
   import Grid from "./components/Grid.svelte";
-  import Button from "./components/Button.svelte";
   import Profiler from "./components/Profiler.svelte";
+  import Controls from "./components/Controls.svelte";
 
   export let gridSize: number = 0;
 
@@ -54,6 +48,13 @@
       rafId = requestAnimationFrame(step);
     }
   }
+
+  const actions = {
+    reset: handleReset,
+    random: handleRandom,
+    next: handleNext,
+    toggleAutoPlay: handleToggleAtuplay,
+  };
 </script>
 
 <style>
@@ -73,39 +74,11 @@
   h1 {
     color: white;
   }
-
-  .controls {
-    margin-top: 0.75rem;
-    margin-bottom: 0.75rem;
-    display: flex;
-    justify-content: space-between;
-    width: 20rem;
-  }
 </style>
 
 <main>
   <h1>Svelte Game of Life</h1>
-  <div class="controls">
-    <Button color="darkslateblue" label="reset" on:click={handleReset}>
-      <FaSync />
-    </Button>
-    <Button color="darkslategray" label="random" on:click={handleRandom}>
-      <FaRandom />
-    </Button>
-    <Button
-      color="teal"
-      disabled={isPlaying}
-      label="next"
-      on:click={handleNext}>
-      <FaStepForward />
-    </Button>
-    <Button
-      color={isPlaying ? 'darkred' : 'darkgreen'}
-      label={isPlaying ? 'pause' : 'play'}
-      on:click={handleToggleAtuplay}>
-      <svelte:component this={isPlaying ? FaPause : FaPlay} />
-    </Button>
-  </div>
+  <Controls {actions} {isPlaying} />
   <Grid rows={grid} />
   <Profiler {frames} {startedPlayingAt} />
 </main>

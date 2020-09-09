@@ -2,11 +2,11 @@
   import { opacify, lighten } from "polished";
 
   export let label: string;
-  export let color = "#333";
+  export let bg = "#333";
   export let disabled: boolean;
 
-  const background = lighten(0.05, color);
-  const borderColor = opacify(-0.6, color);
+  const background = lighten(0.05, bg);
+  const borderColor = opacify(-0.6, bg);
 </script>
 
 <style>
