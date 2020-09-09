@@ -21,6 +21,8 @@
     random: NO_OP,
     next: NO_OP,
     toggleAutoPlay: NO_OP,
+    incrementGridSize: NO_OP,
+    decrementGridSize: NO_OP,
   };
 </script>
 
@@ -65,7 +67,11 @@
     </Button>
   </div>
   <label class="size-selector">
-    <Button bg="#555" on:click={() => gridSize--} buttonSize="2.5rem">
+    <Button
+      disabled={isPlaying}
+      bg="#555"
+      on:click={actions.decrementGridSize}
+      buttonSize="2.5rem">
       <div class="control-icon">
         <FaMinus style="transform:scale(1.5)" />
       </div>
@@ -78,7 +84,11 @@
       max={sizes.length - 1}
       step={1}
       disabled={isPlaying} />
-    <Button bg="#444" on:click={() => gridSize++} buttonSize="2.5rem">
+    <Button
+      disabled={isPlaying}
+      bg="#444"
+      on:click={actions.incrementGridSize}
+      buttonSize="2.5rem">
       <div class="control-icon">
         <FaPlus />
       </div>

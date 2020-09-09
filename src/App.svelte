@@ -9,52 +9,50 @@
 
   export let gridSize: number = 0;
 
-  $: grid = createRandomGrid(sizes[gridSize].cells);
-
   let isPlaying = false;
   let rafId: number | undefined;
   let frames = 0;
   let startedPlayingAt: number | undefined;
 
-  function handleReset() {
-    grid = createGrid(GRID_SIZE);
-  }
-
-  function handleRandom() {
-    grid = createRandomGrid(GRID_SIZE);
-  }
-
-  function handleNext() {
-    grid = nextState(grid);
-  }
-
-  function handleToggleAtuplay() {
-    if (isPlaying) {
-      cancelAnimationFrame(rafId);
-      isPlaying = false;
-      frames = 0;
-      startedPlayingAt = undefined;
-      return;
-    }
-    isPlaying = true;
-    startedPlayingAt = Date.now();
-    step();
-  }
-
-  function step() {
-    grid = nextState(grid);
-
-    if (isPlaying) {
-      frames++;
-      rafId = requestAnimationFrame(step);
-    }
-  }
+  $: cells = sizes[gridSize].cells;
+  $: grid = createRandomGrid(cells);
 
   const actions = {
-    reset: handleReset,
-    random: handleRandom,
-    next: handleNext,
-    toggleAutoPlay: handleToggleAtuplay,
+    reset() {
+      grid = createGrid(cells);
+    },
+    random() {
+      grid = createRandomGrid(cells);
+    },
+    next() {
+      grid = nextState(grid);
+    },
+    play() {
+      actions.next();
+
+      if (isPlaying) {
+        frames++;
+        rafId = requestAnimationFrame(actions.play);
+      }
+    },
+    incrementGridSize() {
+      gridSize++;
+    },
+    decrementGridSize() {
+      gridSize--;
+    },
+    toggleAutoPlay() {
+      if (isPlaying) {
+        cancelAnimationFrame(rafId);
+        isPlaying = false;
+        frames = 0;
+        startedPlayingAt = undefined;
+        return;
+      }
+      isPlaying = true;
+      startedPlayingAt = Date.now();
+      actions.play();
+    },
   };
 </script>
 
@@ -75,23 +73,6 @@
 
   h1 {
     color: white;
-  }
-
-  .size-selector {
-    margin-top: 1.5rem;
-    display: flex;
-    color: white;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .size-selector > button {
-    background: #333;
-    color: #eee;
-    border: none;
-    border-radius: 0.75rem;
-    margin: 0 0.5rem;
-    padding: 0.5rem;
   }
 </style>
 
