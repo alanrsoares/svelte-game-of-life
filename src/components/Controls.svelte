@@ -86,7 +86,7 @@
       disabled={isPlaying} />
     <Button
       disabled={isPlaying}
-      bg="#444"
+      bg="#555"
       on:click={actions.incrementGridSize}
       buttonSize="2.5rem">
       <div class="control-icon">
