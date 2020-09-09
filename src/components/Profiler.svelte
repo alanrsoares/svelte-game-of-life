@@ -14,15 +14,14 @@
 <style>
   div {
     margin: 1em;
-    border: solid 0.2em var(--color);
-    background-color: var(--color);
-    border-radius: 50%;
+    background: var(--color);
+    border-radius: 1rem;
     color: white;
     width: 4em;
     text-align: center;
-    transition: all 0.3s ease-in;
-    height: 4em;
-    width: 4em;
+    transition: background 0.3s ease-in;
+    height: 2.125em;
+    width: 4.25em;
     display: flex;
     justify-content: center;
     align-items: center;

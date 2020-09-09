@@ -1,12 +1,17 @@
 <script lang="ts">
+  import { sizes } from "../lib/config";
+
   export let isAlive: boolean = false;
   export let bg: string = "#222";
+  export let sizeIndex: number = 0;
+
+  $: cellSize = sizes[sizeIndex].cellSize;
 </script>
 
 <style>
   :root {
     --cell-bg: #222;
-    --cell-size: 7px;
+    --cell-size: 0.25rem;
   }
   .cell {
     width: var(--cell-size);
@@ -30,7 +35,7 @@
   <div
     class="cell"
     class:alive={isAlive}
-    style="--bg:{bg}"
+    style="--bg:{bg};--cell-size:{cellSize}"
     on:mouseover
     on:mousedown />
 </template>

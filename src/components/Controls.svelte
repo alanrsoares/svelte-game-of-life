@@ -4,12 +4,18 @@
   import FaPlay from "svelte-icons/fa/FaPlay.svelte";
   import FaPause from "svelte-icons/fa/FaPause.svelte";
   import FaStepForward from "svelte-icons/fa/FaStepForward.svelte";
+  import FaMinus from "svelte-icons/fa/FaMinus.svelte";
+  import FaPlus from "svelte-icons/fa/FaPlus.svelte";
+
+  import { sizes } from "../lib/config";
 
   import Button from "./Button.svelte";
 
   const NO_OP = () => {};
 
   export let isPlaying: boolean = false;
+  export let gridSize: number = 0;
+
   export let actions = {
     reset: NO_OP,
     random: NO_OP,
@@ -20,30 +26,62 @@
 
 <style>
   .controls {
-    margin-top: 0.75rem;
-    margin-bottom: 0.75rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     display: flex;
     justify-content: space-between;
     width: 20rem;
+  }
+
+  .control-icon {
+    height: 1rem;
   }
 </style>
 
 <template>
   <div class="controls">
     <Button bg="darkslateblue" label="reset" on:click={actions.reset}>
-      <FaSync />
+      <div class="control-icon">
+        <FaSync />
+      </div>
     </Button>
     <Button bg="darkslategray" label="random" on:click={actions.random}>
-      <FaRandom />
+      <div class="control-icon">
+        <FaRandom />
+      </div>
     </Button>
     <Button bg="teal" disabled={isPlaying} label="next" on:click={actions.next}>
-      <FaStepForward />
+      <div class="control-icon">
+        <FaStepForward />
+      </div>
     </Button>
     <Button
       bg={isPlaying ? 'darkred' : 'darkgreen'}
       label={isPlaying ? 'pause' : 'play'}
       on:click={actions.toggleAutoPlay}>
-      <svelte:component this={isPlaying ? FaPause : FaPlay} />
+      <div class="control-icon">
+        <svelte:component this={isPlaying ? FaPause : FaPlay} />
+      </div>
     </Button>
   </div>
+  <label class="size-selector">
+    <Button bg="#555" on:click={() => gridSize--} buttonSize="2.5rem">
+      <div class="control-icon">
+        <FaMinus style="transform:scale(1.5)" />
+      </div>
+    </Button>
+    <input
+      type="range"
+      name="board-size"
+      bind:value={gridSize}
+      min={0}
+      max={sizes.length - 1}
+      step={1}
+      disabled={isPlaying} />
+    <Button bg="#444" on:click={() => gridSize++} buttonSize="2.5rem">
+      <div class="control-icon">
+        <FaPlus />
+      </div>
+    </Button>
+  </label>
 </template>

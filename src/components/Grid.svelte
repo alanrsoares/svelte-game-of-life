@@ -5,6 +5,8 @@
 
   export let rows: boolean[][] = [];
 
+  export let sizeIndex: number = 0;
+
   const handleMouseEvent = ({ y, x }: Point) => (e: MouseEvent) => {
     if (e.button === 0 && e.buttons === 1) {
       rows[y][x] = !rows[y][x];
@@ -17,7 +19,7 @@
     border: solid 0.25rem #222;
     border-radius: 0.75rem;
     padding: 0.125rem;
-    margin: auto;
+    margin: 1.75rem auto;
   }
 
   .row {
@@ -34,7 +36,8 @@
           isAlive={cell}
           on:mouseover={handleMouseEvent({ y, x })}
           on:mousedown={handleMouseEvent({ y, x })}
-          bg={getRainbowHSL(y, x)} />
+          bg={getRainbowHSL(y, x)}
+          {sizeIndex} />
       {/each}
     </div>
   {/each}

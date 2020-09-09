@@ -4,6 +4,7 @@
   export let label: string;
   export let bg = "#333";
   export let disabled: boolean;
+  export let buttonSize: string = "3.75rem";
 
   const background = lighten(0.05, bg);
   const borderColor = opacify(-0.6, bg);
@@ -11,7 +12,6 @@
 
 <style>
   :root {
-    --button-size: 4rem;
     --button-radius: 50%;
   }
 
@@ -25,7 +25,7 @@
     outline: none;
     transition: all 0.15s ease-in;
     cursor: pointer;
-    padding: 1rem;
+    padding: 0.25rem;
   }
 
   button:hover {
@@ -48,7 +48,7 @@
 <button
   on:click
   {disabled}
-  style="--color:{background}; --border-color:{borderColor}"
+  style="--color:{background};--border-color:{borderColor};--button-size:{buttonSize}"
   aria-label={label}>
   <slot>{label}</slot>
 </button>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createGrid, createRandomGrid } from "./lib/utils";
   import { nextState } from "./lib/game";
-  import { GRID_SIZE } from "./lib/config";
+  import { GRID_SIZE, sizes } from "./lib/config";
 
   import Grid from "./components/Grid.svelte";
   import Profiler from "./components/Profiler.svelte";
@@ -9,7 +9,8 @@
 
   export let gridSize: number = 0;
 
-  let grid = createRandomGrid(gridSize);
+  $: grid = createRandomGrid(sizes[gridSize].cells);
+
   let isPlaying = false;
   let rafId: number | undefined;
   let frames = 0;
@@ -67,18 +68,37 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #333;
+    background-color: #3a3f4a;
     height: 100vh;
+    padding: 2rem 0;
   }
 
   h1 {
     color: white;
   }
+
+  .size-selector {
+    margin-top: 1.5rem;
+    display: flex;
+    color: white;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .size-selector > button {
+    background: #333;
+    color: #eee;
+    border: none;
+    border-radius: 0.75rem;
+    margin: 0 0.5rem;
+    padding: 0.5rem;
+  }
 </style>
 
 <main>
   <h1>Svelte Game of Life</h1>
-  <Controls {actions} {isPlaying} />
-  <Grid rows={grid} />
+  <Controls {actions} {isPlaying} bind:gridSize />
+
+  <Grid sizeIndex={gridSize} rows={grid} />
   <Profiler {frames} {startedPlayingAt} />
 </main>
