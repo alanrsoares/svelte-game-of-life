@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { getRainbowHSL } from "../lib/colors";
-  import type { Point, Grid } from "../lib/types";
-  import { SIZES } from "../lib/config";
+  import { getRainbowHSL } from "lib/colors";
+  import type { Point, Grid } from "lib/types";
+  import { SIZES } from "lib/config";
 
   import Cell from "./Cell.svelte";
 

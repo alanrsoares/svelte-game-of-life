@@ -3,9 +3,10 @@
   import { nextState } from "./lib/game";
   import { SIZES } from "./lib/config";
 
-  import Grid from "./components/Grid.svelte";
+  //  import Grid from "./components/Grid.svelte";
   import Profiler from "./components/Profiler.svelte";
   import Controls from "./components/Controls.svelte";
+  import GridCanvas from "./components/GridCanvas.svelte";
 
   export let gridSize: number = 0;
 
@@ -83,6 +84,7 @@
 <main>
   <h1>Svelte Game of Life</h1>
   <Controls {actions} {isPlaying} bind:gridSize />
-  <Grid sizeIndex={gridSize} {grid} />
+
+  <GridCanvas sizeIndex={gridSize} {grid} />
   <Profiler {frames} {startedPlayingAt} />
 </main>

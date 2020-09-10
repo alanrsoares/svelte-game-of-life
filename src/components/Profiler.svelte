@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { calculateFrameRate } from "../lib/utils";
+  import { calculateFrameRate } from "lib/utils";
 
   export let frames = 0;
   export let startedPlayingAt = Date.now();

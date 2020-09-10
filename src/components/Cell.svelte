@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { SIZES } from "../lib/config";
+  import { SIZES } from "lib/config";
 
   export let isAlive: boolean = false;
   export let bg: string = "#222";

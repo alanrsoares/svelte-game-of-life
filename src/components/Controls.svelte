@@ -7,7 +7,7 @@
   import FaMinus from "svelte-icons/fa/FaMinus.svelte";
   import FaPlus from "svelte-icons/fa/FaPlus.svelte";
 
-  import { SIZES } from "../lib/config";
+  import { SIZES } from "lib/config";
 
   import Button from "./Button.svelte";
 
