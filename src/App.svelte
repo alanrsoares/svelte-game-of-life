@@ -14,15 +14,15 @@
   let frames = 0;
   let startedPlayingAt: number | undefined;
 
-  $: cells = SIZES[gridSize].grid;
-  $: grid = createRandomGrid(cells);
+  $: gridLength = SIZES[gridSize].grid;
+  $: grid = createRandomGrid(gridLength);
 
   const actions = {
     reset() {
-      grid = createGrid(cells);
+      grid = createGrid(gridLength);
     },
     random() {
-      grid = createRandomGrid(cells);
+      grid = createRandomGrid(gridLength);
     },
     next() {
       grid = nextState(grid);
@@ -36,10 +36,14 @@
       }
     },
     incrementGridSize() {
-      gridSize++;
+      if (gridSize < SIZES.length - 1) {
+        gridSize++;
+      }
     },
     decrementGridSize() {
-      gridSize--;
+      if (gridSize > 0) {
+        gridSize--;
+      }
     },
     toggleAutoPlay() {
       if (isPlaying) {

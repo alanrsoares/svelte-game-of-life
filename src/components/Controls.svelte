@@ -24,6 +24,8 @@
     incrementGridSize: NO_OP,
     decrementGridSize: NO_OP,
   };
+
+  let buttonSize = "2rem";
 </script>
 
 <style>
@@ -43,20 +45,29 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    background-color: rgba(50, 50, 50, 0.6);
   }
 
   .range {
     appearance: none;
     cursor: pointer;
     border-radius: 0.75rem;
-    height: 0.5rem;
+    height: 0.25rem;
     outline: none;
     margin: 0 0.5rem;
     transition: all 0.15s ease-in;
+    background-color: rgba(255, 255, 255, 0.8);
   }
 
   .range:focus {
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
+  }
+
+  .range:disabled {
+    cursor: not-allowed;
+    background-color: rgba(255, 255, 255, 0.4);
   }
 </style>
 
@@ -86,12 +97,12 @@
       </div>
     </Button>
   </div>
-  <label class="size-selector">
+  <label class="size-selector" for="grid-size">
     <Button
-      disabled={isPlaying}
+      {buttonSize}
+      disabled={isPlaying || gridSize < 1}
       bg="#555"
       on:click={actions.decrementGridSize}
-      buttonSize="2.5rem"
       label="decrease grid size">
       <div class="control-icon">
         <FaMinus style="transform:scale(1.5)" />
@@ -105,12 +116,13 @@
       min={0}
       max={SIZES.length - 1}
       step={1}
-      disabled={isPlaying} />
-    <Button
       disabled={isPlaying}
+      aria-disabled={String(isPlaying)} />
+    <Button
+      {buttonSize}
+      disabled={isPlaying || gridSize >= SIZES.length - 1}
       bg="#555"
       on:click={actions.incrementGridSize}
-      buttonSize="2.5rem"
       label="increase grid size">
       <div class="control-icon">
         <FaPlus />
