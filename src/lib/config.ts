@@ -1,3 +1,5 @@
+export const DEAD_CELL_COLOR = "#222";
+
 export const SIZES = [
   {
     grid: 16,

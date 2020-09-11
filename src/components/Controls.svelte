@@ -15,6 +15,7 @@
 
   export let isPlaying: boolean = false;
   export let gridSize: number = 0;
+  export let renderMode: "canvas" | "dom" = "dom";
 
   export let actions = {
     reset: NO_OP,
@@ -23,6 +24,7 @@
     toggleAutoPlay: NO_OP,
     incrementGridSize: NO_OP,
     decrementGridSize: NO_OP,
+    toggleRenderMode: NO_OP,
   };
 
   let buttonSize = "2rem";
@@ -69,34 +71,40 @@
     cursor: not-allowed;
     background-color: rgba(255, 255, 255, 0.4);
   }
+
+  .grid-render-controls {
+    display: flex;
+    width: 310px;
+    justify-content: space-between;
+  }
 </style>
 
-<template>
-  <div class="controls">
-    <Button bg="darkslateblue" label="reset" on:click={actions.reset}>
-      <div class="control-icon">
-        <FaSync />
-      </div>
-    </Button>
-    <Button bg="darkslategray" label="random" on:click={actions.random}>
-      <div class="control-icon">
-        <FaRandom />
-      </div>
-    </Button>
-    <Button bg="teal" disabled={isPlaying} label="next" on:click={actions.next}>
-      <div class="control-icon">
-        <FaStepForward />
-      </div>
-    </Button>
-    <Button
-      bg={isPlaying ? 'darkred' : 'darkgreen'}
-      label={isPlaying ? 'pause' : 'play'}
-      on:click={actions.toggleAutoPlay}>
-      <div class="control-icon">
-        <svelte:component this={isPlaying ? FaPause : FaPlay} />
-      </div>
-    </Button>
-  </div>
+<div class="controls">
+  <Button bg="darkslateblue" label="reset" on:click={actions.reset}>
+    <div class="control-icon">
+      <FaSync />
+    </div>
+  </Button>
+  <Button bg="darkslategray" label="random" on:click={actions.random}>
+    <div class="control-icon">
+      <FaRandom />
+    </div>
+  </Button>
+  <Button bg="teal" disabled={isPlaying} label="next" on:click={actions.next}>
+    <div class="control-icon">
+      <FaStepForward />
+    </div>
+  </Button>
+  <Button
+    bg={isPlaying ? 'darkred' : 'darkgreen'}
+    label={isPlaying ? 'pause' : 'play'}
+    on:click={actions.toggleAutoPlay}>
+    <div class="control-icon">
+      <svelte:component this={isPlaying ? FaPause : FaPlay} />
+    </div>
+  </Button>
+</div>
+<div class="grid-render-controls">
   <label class="size-selector" for="grid-size">
     <Button
       {buttonSize}
@@ -129,4 +137,13 @@
       </div>
     </Button>
   </label>
-</template>
+  <div>
+    <Button
+      radius="md"
+      label="render mode"
+      on:click={actions.toggleRenderMode}
+      bg={renderMode === 'canvas' ? 'darkgreen' : 'darkred'}>
+      {renderMode}
+    </Button>
+  </div>
+</div>

@@ -5,9 +5,23 @@
   export let bg = "#333";
   export let disabled: boolean;
   export let buttonSize: string = "3.75rem";
+  export let radius: "sm" | "md" | "lg" | "rd" = "rd";
 
-  const background = lighten(0.05, bg);
-  const borderColor = opacify(-0.6, bg);
+  $: background = lighten(0.05, bg);
+  $: borderColor = opacify(-0.6, bg);
+
+  $: buttonRadius = (() => {
+    switch (radius) {
+      case "rd":
+        return "50%";
+      case "sm":
+        return ".5rem";
+      case "md":
+        return ".75rem";
+      case "lg":
+        return "1rem";
+    }
+  })();
 </script>
 
 <style>
@@ -48,7 +62,7 @@
 <button
   on:click
   {disabled}
-  style="--color:{background};--border-color:{borderColor};--button-size:{buttonSize}"
+  style="--color:{background};--border-color:{borderColor};--button-size:{buttonSize};--button-radius:{buttonRadius}"
   aria-label={label}>
   <slot>{label}</slot>
 </button>

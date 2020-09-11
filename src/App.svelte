@@ -3,10 +3,10 @@
   import { nextState } from "./lib/game";
   import { SIZES } from "./lib/config";
 
-  //  import Grid from "./components/Grid.svelte";
   import Profiler from "./components/Profiler.svelte";
   import Controls from "./components/Controls.svelte";
   import GridCanvas from "./components/GridCanvas.svelte";
+  import GridDOM from "./components/GridDOM.svelte";
 
   export let gridSize: number = 0;
 
@@ -14,9 +14,11 @@
   let rafId: number | undefined;
   let frames = 0;
   let startedPlayingAt: number | undefined;
+  let renderMode: "canvas" | "dom" = "dom";
 
   $: gridLength = SIZES[gridSize].grid;
   $: grid = createRandomGrid(gridLength);
+  $: GridComponent = renderMode === "canvas" ? GridCanvas : GridDOM;
 
   const actions = {
     reset() {
@@ -58,6 +60,9 @@
       startedPlayingAt = Date.now();
       actions.play();
     },
+    toggleRenderMode() {
+      renderMode = renderMode === "canvas" ? "dom" : "canvas";
+    },
   };
 </script>
 
@@ -83,8 +88,7 @@
 
 <main>
   <h1>Svelte Game of Life</h1>
-  <Controls {actions} {isPlaying} bind:gridSize />
-
-  <GridCanvas sizeIndex={gridSize} {grid} />
+  <Controls {actions} bind:isPlaying bind:renderMode bind:gridSize />
+  <svelte:component this={GridComponent} sizeIndex={gridSize} {grid} />
   <Profiler {frames} {startedPlayingAt} />
 </main>

@@ -1,9 +1,10 @@
 <script lang="ts">
   import { getRainbowHSL } from "lib/colors";
   import type { Point, Grid } from "lib/types";
-  import { SIZES } from "lib/config";
+  import { DEAD_CELL_COLOR, SIZES } from "lib/config";
 
   import Cell from "./Cell.svelte";
+  import GridContainer from "./GridContainer.svelte";
 
   export let grid: Grid = [];
   export let sizeIndex: number = 0;
@@ -18,30 +19,23 @@
 </script>
 
 <style>
-  .container {
-    border: solid 0.25rem #222;
-    border-radius: 0.75rem;
-    padding: 0.125rem;
-    margin: 1.75rem auto;
-  }
-
   .row {
     flex: 1;
     display: flex;
   }
 </style>
 
-<div class="container">
+<GridContainer>
   {#each grid as cells, y}
     <div class="row">
-      {#each cells as cell, x}
+      {#each cells as isAlive, x}
         <Cell
           {sizeIndex}
-          isAlive={cell}
+          {isAlive}
           on:mouseover={handleMouseEvent({ y, x })}
           on:mousedown={handleMouseEvent({ y, x })}
-          bg={getRainbowHSL(y, x, gridSize)} />
+          bg={isAlive ? getRainbowHSL(y, x, gridSize) : DEAD_CELL_COLOR} />
       {/each}
     </div>
   {/each}
-</div>
+</GridContainer>

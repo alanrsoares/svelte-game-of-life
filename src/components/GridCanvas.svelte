@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import { SIZES } from "lib/config";
+  import { DEAD_CELL_COLOR, SIZES } from "lib/config";
   import type { Grid } from "lib/types";
   import { getRainbowHSL } from "lib/colors";
 
@@ -20,35 +20,29 @@
     draw(ctx, grid);
   }
 
-  const offset = (n: number) => n * cellSize + cellSize / 2;
+  $: cellRadius = cellSize / 2;
+
+  const offset = (n: number) => n * (cellSize + 2) + cellRadius + 1;
 
   function draw(ctx: CanvasRenderingContext2D, grid: Grid) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     grid.forEach((row, y) => {
       row.forEach((isAlive, x) => {
-        const color = isAlive ? getRainbowHSL(y, x, gridSize) : "#222";
+        const cellColor = isAlive
+          ? getRainbowHSL(y, x, gridSize)
+          : DEAD_CELL_COLOR;
 
-        ctx.fillStyle = color;
-
+        ctx.fillStyle = cellColor;
         ctx.beginPath();
-
-        ctx.arc(
-          offset(x),
-          offset(y),
-          cellSize / 2 - cellSize * 0.125,
-          0,
-          2 * Math.PI,
-          false
-        );
-
+        ctx.arc(offset(x), offset(y), cellRadius, 0, 2 * Math.PI, false);
         ctx.fill();
       });
     });
   }
 
   $: if (canvas && gridSize && cellSize) {
-    const length = gridSize * cellSize;
+    const length = gridSize * (cellSize + 2);
 
     if (length && length !== canvas.height) {
       canvas.height = length;
@@ -71,4 +65,4 @@
   }
 </style>
 
-<template> <canvas bind:this={canvas} /> </template>
+<canvas bind:this={canvas} />
