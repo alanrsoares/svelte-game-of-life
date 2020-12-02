@@ -16,3 +16,11 @@ export const calculateFrameRate = (
   startedAt = Date.now(),
   now = Date.now()
 ) => (startedAt ? Math.ceil(ticks / ((now - startedAt) / 1000)) : null);
+
+export const camelToSnakeCase = (s: string) =>
+  s.replace(/([A-Z])/g, (x) => `-${x.toLocaleLowerCase()}`);
+
+export const toCssProps = (obj: Record<string, string | number>) =>
+  Object.entries(obj)
+    .map(([k, v]) => `--${camelToSnakeCase(k)}:${v}`)
+    .join(";");

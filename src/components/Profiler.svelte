@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { calculateFrameRate } from "lib/utils";
+  import { calculateFrameRate, toCssProps } from "lib/utils";
 
   export let frames = 0;
   export let startedPlayingAt = Date.now();
@@ -9,6 +9,8 @@
     frameRate < 24 ? "crimson" : frameRate < 48 ? "orange" : "darkgreen";
 
   $: opacity = Number(Boolean(frameRate && !isNaN(frameRate)));
+
+  $: style = toCssProps({ color, opacity });
 </script>
 
 <style>
@@ -31,4 +33,4 @@
   }
 </style>
 
-<div style="--color:{color};--opacity:{opacity}">{frameRate}fps</div>
+<div style={style}>{frameRate}fps</div>

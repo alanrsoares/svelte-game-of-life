@@ -1,5 +1,6 @@
 <script lang="ts">
   import { opacify, lighten } from "polished";
+  import { toCssProps } from "lib/utils";
 
   export let label: string;
   export let bg = "#333";
@@ -9,7 +10,6 @@
 
   $: background = lighten(0.05, bg);
   $: borderColor = opacify(-0.6, bg);
-
   $: buttonRadius = (() => {
     switch (radius) {
       case "rd":
@@ -22,6 +22,13 @@
         return "1rem";
     }
   })();
+
+  $: style = toCssProps({
+    background,
+    borderColor,
+    buttonSize,
+    buttonRadius
+  });
 </script>
 
 <style>
@@ -31,7 +38,7 @@
 
   button {
     color: white;
-    background-color: var(--color);
+    background-color: var(--background);
     border: none;
     width: var(--button-size);
     height: var(--button-size);
@@ -62,7 +69,7 @@
 <button
   on:click
   {disabled}
-  style="--color:{background};--border-color:{borderColor};--button-size:{buttonSize};--button-radius:{buttonRadius}"
+  style={style}
   aria-label={label}>
   <slot>{label}</slot>
 </button>
