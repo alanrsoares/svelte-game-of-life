@@ -48,7 +48,12 @@ export default {
         // enable run-time checks when not in production
         dev: !production,
       },
-      preprocess: autoPreprocess(),
+      preprocess: autoPreprocess({
+        defaults: {
+          lang: "typescript",
+          style: "postcss",
+        },
+      }),
     }),
 
     typescript({ sourceMap: !production }),
