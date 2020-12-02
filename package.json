@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "normalize.css": "^8.0.1",
-    "polished": "^4.0.3",
+    "polished": "^4.0.5",
     "ramda": "^0.27.1",
     "sirv-cli": "^1.0.8",
     "svelte-icons": "^2.1.0"
