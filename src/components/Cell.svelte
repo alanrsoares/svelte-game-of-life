@@ -8,7 +8,7 @@
 
   $: cellSize = SIZES[sizeIndex].cell;
 
-  $: style = toCssProps({ bg, cellSize});
+  $: style = toCssProps({ bg, cellSize });
 </script>
 
 <style>
@@ -33,8 +33,4 @@
   }
 </style>
 
-<div
-  class:alive={isAlive}
-  style={style}
-  on:mouseover
-  on:mousedown />
+<div class:alive={isAlive} {style} on:mouseover on:mousedown />

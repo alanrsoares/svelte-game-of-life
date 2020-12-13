@@ -27,7 +27,7 @@
     background,
     borderColor,
     buttonSize,
-    buttonRadius
+    buttonRadius,
   });
 </script>
 
@@ -66,10 +66,6 @@
   }
 </style>
 
-<button
-  on:click
-  {disabled}
-  style={style}
-  aria-label={label}>
+<button on:click {disabled} {style} aria-label={label}>
   <slot>{label}</slot>
 </button>

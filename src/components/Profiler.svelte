@@ -33,4 +33,4 @@
   }
 </style>
 
-<div style={style}>{frameRate}fps</div>
+<div {style}>{frameRate}fps</div>
