@@ -31,6 +31,10 @@
   });
 </script>
 
+<button on:click {disabled} {style} aria-label={label}>
+  <slot>{label}</slot>
+</button>
+
 <style>
   :root {
     --button-radius: 50%;
@@ -65,7 +69,3 @@
     cursor: not-allowed;
   }
 </style>
-
-<button on:click {disabled} {style} aria-label={label}>
-  <slot>{label}</slot>
-</button>

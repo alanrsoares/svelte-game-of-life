@@ -1,3 +1,7 @@
+<div class="grid-container">
+  <slot />
+</div>
+
 <style>
   .grid-container {
     border: solid 0.25rem #222;
@@ -6,7 +10,3 @@
     margin: 1.75rem auto;
   }
 </style>
-
-<div class="grid-container">
-  <slot />
-</div>

@@ -13,6 +13,8 @@
   $: style = toCssProps({ color, opacity });
 </script>
 
+<div {style}>{frameRate}fps</div>
+
 <style>
   div {
     margin: 1em;
@@ -32,5 +34,3 @@
     opacity: var(--opacity);
   }
 </style>
-
-<div {style}>{frameRate}fps</div>

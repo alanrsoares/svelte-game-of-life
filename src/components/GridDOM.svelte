@@ -18,13 +18,6 @@
   };
 </script>
 
-<style>
-  .row {
-    flex: 1;
-    display: flex;
-  }
-</style>
-
 <GridContainer>
   {#each grid as cells, y}
     <div class="row">
@@ -34,8 +27,16 @@
           {isAlive}
           on:mouseover={handleMouseEvent({ y, x })}
           on:mousedown={handleMouseEvent({ y, x })}
-          bg={isAlive ? getRainbowHSL(y, x, gridSize) : DEAD_CELL_COLOR} />
+          bg={isAlive ? getRainbowHSL(y, x, gridSize) : DEAD_CELL_COLOR}
+        />
       {/each}
     </div>
   {/each}
 </GridContainer>
+
+<style>
+  .row {
+    flex: 1;
+    display: flex;
+  }
+</style>

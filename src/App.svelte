@@ -3,10 +3,10 @@
   import { nextState } from "./lib/game";
   import { SIZES } from "./lib/config";
 
-  import Profiler from "./components/Profiler.svelte";
-  import Controls from "./components/Controls.svelte";
-  import GridCanvas from "./components/GridCanvas.svelte";
-  import GridDOM from "./components/GridDOM.svelte";
+  import Profiler from "components/Profiler.svelte";
+  import Controls from "components/Controls.svelte";
+  import GridCanvas from "components/GridCanvas.svelte";
+  import GridDOM from "components/GridDOM.svelte";
 
   export let gridSize: number = 0;
 
@@ -66,6 +66,13 @@
   };
 </script>
 
+<main>
+  <h1>Svelte Game of Life</h1>
+  <Controls {actions} bind:isPlaying bind:renderMode bind:gridSize />
+  <svelte:component this={GridComponent} sizeIndex={gridSize} {grid} />
+  <Profiler {frames} {startedPlayingAt} />
+</main>
+
 <style>
   :root {
     font-size: 16px;
@@ -85,10 +92,3 @@
     color: white;
   }
 </style>
-
-<main>
-  <h1>Svelte Game of Life</h1>
-  <Controls {actions} bind:isPlaying bind:renderMode bind:gridSize />
-  <svelte:component this={GridComponent} sizeIndex={gridSize} {grid} />
-  <Profiler {frames} {startedPlayingAt} />
-</main>

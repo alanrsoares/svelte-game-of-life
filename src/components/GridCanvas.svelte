@@ -56,6 +56,8 @@
   });
 </script>
 
+<canvas bind:this={canvas} />
+
 <style>
   canvas {
     border: solid 0.25rem #222;
@@ -64,5 +66,3 @@
     margin: 1.75rem auto;
   }
 </style>
-
-<canvas bind:this={canvas} />

@@ -30,6 +30,80 @@
   let buttonSize = "2rem";
 </script>
 
+<div class="controls">
+  <Button bg="darkslateblue" label="reset" on:click={actions.reset}>
+    <div class="control-icon">
+      <FaSync />
+    </div>
+  </Button>
+  <Button bg="darkslategray" label="random" on:click={actions.random}>
+    <div class="control-icon">
+      <FaRandom />
+    </div>
+  </Button>
+  <Button bg="teal" disabled={isPlaying} label="next" on:click={actions.next}>
+    <div class="control-icon">
+      <FaStepForward />
+    </div>
+  </Button>
+  <Button
+    bg={isPlaying ? "darkred" : "darkgreen"}
+    label={isPlaying ? "pause" : "play"}
+    on:click={actions.toggleAutoPlay}
+  >
+    <div class="control-icon">
+      <svelte:component this={isPlaying ? FaPause : FaPlay} />
+    </div>
+  </Button>
+</div>
+<div class="grid-render-controls">
+  <label class="size-selector" for="grid-size">
+    <Button
+      {buttonSize}
+      disabled={isPlaying || gridSize < 1}
+      bg="#555"
+      on:click={actions.decrementGridSize}
+      label="decrease grid size"
+    >
+      <div class="control-icon">
+        <FaMinus style="transform:scale(1.5)" />
+      </div>
+    </Button>
+    <input
+      class="range"
+      type="range"
+      name="grid-size"
+      bind:value={gridSize}
+      min={0}
+      max={SIZES.length - 1}
+      step={1}
+      disabled={isPlaying}
+      aria-disabled={String(isPlaying)}
+    />
+    <Button
+      {buttonSize}
+      disabled={isPlaying || gridSize >= SIZES.length - 1}
+      bg="#555"
+      on:click={actions.incrementGridSize}
+      label="increase grid size"
+    >
+      <div class="control-icon">
+        <FaPlus />
+      </div>
+    </Button>
+  </label>
+  <div>
+    <Button
+      radius="md"
+      label="render mode"
+      on:click={actions.toggleRenderMode}
+      bg={renderMode === "canvas" ? "darkgreen" : "darkred"}
+    >
+      {renderMode}
+    </Button>
+  </div>
+</div>
+
 <style>
   .controls {
     margin-top: 1rem;
@@ -78,72 +152,3 @@
     justify-content: space-between;
   }
 </style>
-
-<div class="controls">
-  <Button bg="darkslateblue" label="reset" on:click={actions.reset}>
-    <div class="control-icon">
-      <FaSync />
-    </div>
-  </Button>
-  <Button bg="darkslategray" label="random" on:click={actions.random}>
-    <div class="control-icon">
-      <FaRandom />
-    </div>
-  </Button>
-  <Button bg="teal" disabled={isPlaying} label="next" on:click={actions.next}>
-    <div class="control-icon">
-      <FaStepForward />
-    </div>
-  </Button>
-  <Button
-    bg={isPlaying ? 'darkred' : 'darkgreen'}
-    label={isPlaying ? 'pause' : 'play'}
-    on:click={actions.toggleAutoPlay}>
-    <div class="control-icon">
-      <svelte:component this={isPlaying ? FaPause : FaPlay} />
-    </div>
-  </Button>
-</div>
-<div class="grid-render-controls">
-  <label class="size-selector" for="grid-size">
-    <Button
-      {buttonSize}
-      disabled={isPlaying || gridSize < 1}
-      bg="#555"
-      on:click={actions.decrementGridSize}
-      label="decrease grid size">
-      <div class="control-icon">
-        <FaMinus style="transform:scale(1.5)" />
-      </div>
-    </Button>
-    <input
-      class="range"
-      type="range"
-      name="grid-size"
-      bind:value={gridSize}
-      min={0}
-      max={SIZES.length - 1}
-      step={1}
-      disabled={isPlaying}
-      aria-disabled={String(isPlaying)} />
-    <Button
-      {buttonSize}
-      disabled={isPlaying || gridSize >= SIZES.length - 1}
-      bg="#555"
-      on:click={actions.incrementGridSize}
-      label="increase grid size">
-      <div class="control-icon">
-        <FaPlus />
-      </div>
-    </Button>
-  </label>
-  <div>
-    <Button
-      radius="md"
-      label="render mode"
-      on:click={actions.toggleRenderMode}
-      bg={renderMode === 'canvas' ? 'darkgreen' : 'darkred'}>
-      {renderMode}
-    </Button>
-  </div>
-</div>

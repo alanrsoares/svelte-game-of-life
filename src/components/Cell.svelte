@@ -11,6 +11,8 @@
   $: style = toCssProps({ bg, cellSize });
 </script>
 
+<div class:alive={isAlive} {style} on:mouseover on:mousedown />
+
 <style>
   :root {
     --cell-size: 0.25rem;
@@ -32,5 +34,3 @@
     background-color: var(--bg);
   }
 </style>
-
-<div class:alive={isAlive} {style} on:mouseover on:mousedown />
