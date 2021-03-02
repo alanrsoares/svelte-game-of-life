@@ -3,10 +3,10 @@
   import { nextState } from "./lib/game";
   import { SIZES } from "./lib/config";
 
-  import Profiler from "components/Profiler.svelte";
-  import Controls from "components/Controls.svelte";
-  import GridCanvas from "components/GridCanvas.svelte";
-  import GridDOM from "components/GridDOM.svelte";
+  import Profiler from "./components/Profiler.svelte";
+  import Controls from "./components/Controls.svelte";
+  import GridCanvas from "./components/GridCanvas.svelte";
+  import GridDOM from "./components/GridDOM.svelte";
 
   export let gridSize: number = 0;
 
