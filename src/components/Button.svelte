@@ -4,7 +4,7 @@
 
   export let label: string;
   export let bg = "#333";
-  export let disabled: boolean;
+  export let disabled = false;
   export let buttonSize: string = "3.75rem";
   export let radius: "sm" | "md" | "lg" | "rd" = "rd";
 

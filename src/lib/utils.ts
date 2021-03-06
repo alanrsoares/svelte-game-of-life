@@ -3,13 +3,14 @@ import type { Grid } from "./types";
 export const range = (to: number) =>
   [...new Array(to)].map((_, i) => Boolean(i));
 
-export const createGrid = (size: number): Grid =>
-  range(size)
-    .fill(false)
-    .map((_x, _i, row) => row.slice());
+export const createGrid = (size: number): Grid => {
+  const alive = Math.random() > 0.5;
+  return range(size).fill(alive).map((_x, _i, row) => row.slice());
+}
 
-export const createRandomGrid = (size: number) =>
-  createGrid(size).map((row) => row.map(() => Math.random() >= 0.8));
+export const createRandomGrid = (size: number, fillPercentage: number = Math.random()): Grid => {
+  return createGrid(size).map((row) => row.map(() => Math.random() <= fillPercentage));
+}
 
 export const calculateFrameRate = (
   ticks = 0,
