@@ -76,5 +76,5 @@ export const presets: Preset[] = [
   { description: "Default rules", rules: "B3/S23", gridFillPercentage: 0.2 },
   { description: "Inverted colors", rules: "B0123478/S01234678", gridFillPercentage: 0.8 },
   { description: "Growing cells", rules: "B45/S2345", gridFillPercentage: 0.15, mutation: 0.0003 },
-  { description: "Growing cells inverted colors", rules: "B28/S5678", gridFillPercentage: 0.92, mutation: 0.0003 },
+  { description: "Growing cells inverted colors", rules: "B01278/S0125678", gridFillPercentage: 0.92, mutation: 0.0003 },
 ]
