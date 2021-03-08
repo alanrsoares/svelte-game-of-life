@@ -36,7 +36,7 @@
   const setPreset = (preset: Preset) => _ => {
     rules = preset.rules
     actions.random(preset.gridFillPercentage)
-    if (preset.mutation) mutation = preset.mutation
+    if (preset.mutation != null) mutation = preset.mutation
   }
 </script>
 
