@@ -1,15 +1,19 @@
 import type { Grid } from "./types";
 
+let withColors = false;
+
 export const range = (to: number) =>
   [...new Array(to)].map((_, i) => Boolean(i));
 
-export const createGrid = (size: number): Grid =>
-  range(size)
-    .fill(false)
+export const createGrid = (size: number): Grid => {
+  return range(size)
+    .fill(withColors = !withColors)
     .map((_x, _i, row) => row.slice());
+}
 
-export const createRandomGrid = (size: number) =>
-  createGrid(size).map((row) => row.map(() => Math.random() >= 0.8));
+export const createRandomGrid = (size: number, fillPercentage: number = Math.random()): Grid => {
+  return createGrid(size).map((row) => row.map(() => Math.random() <= fillPercentage));
+}
 
 export const calculateFrameRate = (
   ticks = 0,

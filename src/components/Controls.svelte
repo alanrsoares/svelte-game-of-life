@@ -8,11 +8,15 @@
   import FaPlus from "svelte-icons/fa/FaPlus.svelte";
 
   import { SIZES } from "lib/config";
+  import type { Preset } from "lib/game";
+  import { presets } from "lib/game";
 
   import Button from "./Button.svelte";
 
-  const NO_OP = () => {};
+  const NO_OP = (...args: any) => {};
 
+  export let rules = "B3/S23"
+  export let mutation = 0.0002;
   export let isPlaying: boolean = false;
   export let gridSize: number = 0;
   export let renderMode: "canvas" | "dom" = "dom";
@@ -28,6 +32,12 @@
   };
 
   let buttonSize = "2rem";
+
+  const setPreset = (preset: Preset) => _ => {
+    rules = preset.rules
+    actions.random(preset.gridFillPercentage)
+    if (preset.mutation != null) mutation = preset.mutation
+  }
 </script>
 
 <div class="controls">
@@ -57,7 +67,8 @@
   </Button>
 </div>
 <div class="grid-render-controls">
-  <label class="size-selector" for="grid-size">
+  <div class="label">Grid size</div>
+  <label class="size-selector">
     <Button
       {buttonSize}
       disabled={isPlaying || gridSize < 1}
@@ -92,6 +103,51 @@
       </div>
     </Button>
   </label>
+  <div class="label">Mutation</div>
+  <label class="size-selector">
+    <Button
+      {buttonSize}
+      disabled={gridSize <= 0}
+      bg="#555"
+      on:click={_ => mutation -= 0.0001}
+      label="decrease mutation odds"
+    >
+      <div class="control-icon">
+        <FaMinus style="transform:scale(1.5)" />
+      </div>
+    </Button>
+    <input
+      class="range"
+      type="range"
+      bind:value={mutation}
+      min={0}
+      max={0.002}
+      step={0.0001}
+    />
+    <Button
+      {buttonSize}
+      disabled={mutation >= 0.002}
+      bg="#555"
+      on:click={_ => mutation += 0.0001}
+      label="increase mutation odds"
+    >
+      <div class="control-icon">
+        <FaPlus />
+      </div>
+    </Button>
+  </label>
+  <div class="label">Rules</div>
+  <div class="rules">
+    <input
+      bind:value={rules}
+      pattern="^B\d+/S\d+$"
+    />
+    <ul class="presets">
+      {#each presets as preset}
+        <li on:mousedown={setPreset(preset)}>{preset.description}</li>
+      {/each}
+    </ul>
+  </div>
   <div>
     <Button
       radius="md"
@@ -148,7 +204,63 @@
 
   .grid-render-controls {
     display: flex;
-    width: 310px;
+    width: 320px;
     justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  div.label {
+    width: 65px;
+    color: #eee;
+    display: flex;
+    align-items: center;
+  }
+
+  .rules input {
+    border: 1px solid black;
+    border-radius: 10px;
+    text-align: center;
+    height: 100%;
+  }
+
+  .rules input:focus {
+    outline: none;
+    border: 3px solid deepskyblue;
+  }
+
+  .rules input:invalid {
+    border: 3px solid red;
+  }
+
+  .grid-render-controls > * {
+    margin-bottom: 5px;
+  }
+
+  .rules {
+    position: relative;
+  }
+
+  .presets {
+    display: none;
+    position: absolute;
+    background: white;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .rules input:focus + .presets {
+    display: block;
+  }
+
+  .presets li {
+    padding: 1rem;
+    cursor: pointer;
+  }
+
+  .presets li:hover {
+    background: rgba(0,0,0,0.1);
   }
 </style>
