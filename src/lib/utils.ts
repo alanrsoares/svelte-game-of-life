@@ -1,11 +1,14 @@
 import type { Grid } from "./types";
 
+let withColors = false;
+
 export const range = (to: number) =>
   [...new Array(to)].map((_, i) => Boolean(i));
 
 export const createGrid = (size: number): Grid => {
-  const alive = Math.random() > 0.5;
-  return range(size).fill(alive).map((_x, _i, row) => row.slice());
+  return range(size)
+    .fill(withColors = !withColors)
+    .map((_x, _i, row) => row.slice());
 }
 
 export const createRandomGrid = (size: number, fillPercentage: number = Math.random()): Grid => {
