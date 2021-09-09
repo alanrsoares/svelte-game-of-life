@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createGrid, createRandomGrid } from "./lib/utils";
-  import { nextState, willLiveFactory } from "./lib/game";
+  import { defaultPreset, nextState, willLiveFactory } from "./lib/game";
   import { SIZES } from "./lib/config";
 
   import Profiler from "./components/Profiler.svelte";
@@ -10,15 +10,15 @@
 
   export let gridSize: number = 0;
 
-	let rules = "B3/S23"
-  let mutation = 0.0002
+  let rules = defaultPreset.rules;
+  let mutation = 0.0002;
   let isPlaying = false;
   let rafId: number | undefined;
   let frames = 0;
   let startedPlayingAt: number | undefined;
   let renderMode: "canvas" | "dom" = "canvas";
 
-  $: willLive = willLiveFactory(rules, mutation)
+  $: willLive = willLiveFactory(rules, mutation);
   $: gridLength = SIZES[gridSize].grid;
   $: grid = createRandomGrid(gridLength, 0.2);
   $: GridComponent = renderMode === "canvas" ? GridCanvas : GridDOM;
@@ -27,11 +27,11 @@
     reset() {
       grid = createGrid(gridLength);
     },
-    random(fillPercentage: number|MouseEvent) {
+    random(fillPercentage: number | MouseEvent) {
       if (typeof fillPercentage === "object") {
-        fillPercentage = Math.random()
+        fillPercentage = Math.random();
       }
-      
+
       grid = createRandomGrid(gridLength, fillPercentage);
     },
     next() {
@@ -75,7 +75,14 @@
 
 <main>
   <h1>Svelte Game of Life</h1>
-  <Controls {actions} bind:isPlaying bind:renderMode bind:gridSize bind:rules bind:mutation />
+  <Controls
+    {actions}
+    bind:isPlaying
+    bind:renderMode
+    bind:gridSize
+    bind:rules
+    bind:mutation
+  />
   <svelte:component this={GridComponent} sizeIndex={gridSize} {grid} />
   <Profiler {frames} {startedPlayingAt} />
 </main>

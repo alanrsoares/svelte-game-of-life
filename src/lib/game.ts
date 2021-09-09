@@ -22,40 +22,36 @@ const combinePositions = ({ y, x }: Point): number[][] =>
 const getIn = (grid: Grid) => (position: number[]) =>
   (([y, x]) => grid[y][x])(newKeys(grid.length, position));
 
-export const getNeighbours = (grid: Grid, position: Point): number =>
+export const getNeighbors = (grid: Grid, position: Point): number =>
   combinePositions(position).map(getIn(grid)).filter(Boolean).length;
 
-export type WillLive = (isAlive: boolean, neighbours: number) => boolean
+export type WillLivePredicate = (
+  isAlive: boolean,
+  neighbors: number
+) => boolean;
 
-export const willLiveFactory = (rules: string, mutation: number): WillLive => {
-  const match = rules.match(/^B(\d+)\/S(\d+)$/)
-  if (!match) return () => false
-  let [, birthNums, survivalNums] = match
-
-  const includedIn = (digits: string) => (liveNeighbors: number) =>
-    digits.split("").includes(`${liveNeighbors}`)
-
-  const shouldBeBorn = includedIn(birthNums)
-  const shouldSurvive = includedIn(survivalNums)
-
+export const willLiveFactory = (
+  rules: PresetRules,
+  mutation: number
+): WillLivePredicate => {
   return (alive: boolean, liveNeighbors: number) => {
-    const survived = shouldSurvive(liveNeighbors)
-    const born = shouldBeBorn(liveNeighbors)
-    const mutate = Math.random() < mutation
-    const died = !survived
+    const survived = rules.survive(liveNeighbors);
+    const spawned = rules.spawn(liveNeighbors);
+    const mutate = Math.random() < mutation;
+    const died = !survived;
 
     if (alive) {
-      return !(died || !born && mutate)
+      return !(died || (!spawned && mutate));
     } else {
-      return born || survived && mutate
+      return spawned || (survived && mutate);
     }
-  }
-}
+  };
+};
 
-export const nextState = (grid: Grid, willLive: WillLive): Grid =>
+export const nextState = (grid: Grid, willLive: WillLivePredicate): Grid =>
   grid.map((row, y) =>
     row.map((column, x) =>
-      willLive(Boolean(column), getNeighbours(grid, { y, x }))
+      willLive(Boolean(column), getNeighbors(grid, { y, x }))
     )
   );
 
@@ -65,19 +61,109 @@ export const toggle = ({ y, x }, current: boolean, grid: Grid): Grid => {
   return $grid;
 };
 
+type LabelledPredicate<T extends (x: number) => boolean> = T & {
+  label: string;
+};
+
+type PresetRulePredicate = LabelledPredicate<(neighbors: number) => boolean>;
+
+export type PresetRules = {
+  spawn: PresetRulePredicate;
+  survive: PresetRulePredicate;
+};
+
 export type Preset = {
-  description: string
-  rules: string
-  gridFillPercentage: number
-  mutation?: number
-}
+  description: string;
+  rules: PresetRules;
+  gridFillPercentage: number;
+  mutation?: number;
+};
+
+const isEqualTo = <T>(x: T) => {
+  const inner = (y: T) => x === y;
+  inner.label = String(x);
+  return inner;
+};
+
+const isOneOf = <T>(xs: T[]) => {
+  const inner = (y: T) => xs.includes(y);
+  inner.label = xs.join("");
+  return inner;
+};
+
+const isBetween = (min: number, max: number) => {
+  const inner = (y: number) => y >= min && y <= max;
+  inner.label = "";
+  for (let i = min; i < max; i++) {
+    inner.label = inner.label + String(i);
+  }
+  return inner;
+};
 
 export const presets: Preset[] = [
-  { description: "Normal life", rules: "B3/S23", gridFillPercentage: 0.2, mutation: 0.0002 },
-  { description: "Inverted colors", rules: "B0123478/S01234678", gridFillPercentage: 0.8, mutation: 0.0002 },
-  { description: "High life", rules: "B36/S23", gridFillPercentage: 0.1, mutation: 0.0002 },
-  { description: "Maze", rules: "B3/S12345", gridFillPercentage: 0.05, mutation: 0 },
-  { description: "Mist", rules: "B3458/S05678", gridFillPercentage: 0.175, mutation: 0.00005 },
-  { description: "Growing cells", rules: "B45/S2345", gridFillPercentage: 0.15, mutation: 0.0003 },
-  { description: "Growing cells inverted colors", rules: "B01278/S0125678", gridFillPercentage: 0.85, mutation: 0.0003 },
-]
+  {
+    description: "Normal life",
+    rules: {
+      spawn: isEqualTo(3),
+      survive: isOneOf([2, 3]),
+    },
+    gridFillPercentage: 0.2,
+    mutation: 0.0002,
+  },
+  {
+    description: "Inverted colors",
+    rules: {
+      spawn: isOneOf([0, 1, 2, 3, 4, 7, 8]),
+      survive: isOneOf([0, 1, 2, 3, 4, 6, 7, 8]),
+    },
+    gridFillPercentage: 0.8,
+    mutation: 0.0002,
+  },
+  {
+    description: "High life",
+    rules: {
+      spawn: isOneOf([3, 6]),
+      survive: isOneOf([2, 3]),
+    },
+    gridFillPercentage: 0.1,
+    mutation: 0.0002,
+  },
+  {
+    description: "Maze",
+    rules: {
+      spawn: isEqualTo(3),
+      survive: isBetween(1, 5),
+    },
+    gridFillPercentage: 0.05,
+    mutation: 0,
+  },
+  {
+    description: "Mist",
+    rules: {
+      spawn: isOneOf([3, 4, 5, 8]),
+      survive: isOneOf([0, 5, 6, 7, 8]),
+    },
+    gridFillPercentage: 0.175,
+    mutation: 0.00005,
+  },
+  {
+    description: "Growing cells",
+    rules: {
+      spawn: isOneOf([4, 5]),
+      survive: isBetween(2, 5),
+    },
+    gridFillPercentage: 0.15,
+    mutation: 0.0003,
+  },
+  {
+    description: "Growing cells inverted colors",
+    rules: {
+      spawn: isOneOf([0, 1, 2, 7, 8]),
+      survive: isOneOf([0, 1, 2, 5, 6, 7, 8]),
+    },
+    gridFillPercentage: 0.85,
+    mutation: 0.0003,
+  },
+];
+
+export const defaultPreset = presets[0];

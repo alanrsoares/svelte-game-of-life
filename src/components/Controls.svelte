@@ -8,14 +8,14 @@
   import FaPlus from "svelte-icons/fa/FaPlus.svelte";
 
   import { SIZES } from "lib/config";
-  import type { Preset } from "lib/game";
+  import type { Preset, PresetRules } from "lib/game";
   import { presets } from "lib/game";
 
   import Button from "./Button.svelte";
 
-  const NO_OP = (...args: any) => {};
+  const NO_OP = (..._args: any) => {};
 
-  export let rules = "B3/S23"
+  export let rules: PresetRules;
   export let mutation = 0.0002;
   export let isPlaying: boolean = false;
   export let gridSize: number = 0;
@@ -33,11 +33,13 @@
 
   let buttonSize = "2rem";
 
-  const setPreset = (preset: Preset) => _ => {
-    rules = preset.rules
-    actions.random(preset.gridFillPercentage)
-    if (preset.mutation != null) mutation = preset.mutation
-  }
+  $: ruleLabel = `B${rules.spawn.label}/S${rules.survive.label}`;
+
+  const setPreset = (preset: Preset) => () => {
+    rules = preset.rules;
+    actions.random(preset.gridFillPercentage);
+    if (preset.mutation != null) mutation = preset.mutation;
+  };
 </script>
 
 <div class="controls">
@@ -89,7 +91,7 @@
       max={SIZES.length - 1}
       step={1}
       disabled={isPlaying}
-      aria-disabled={String(isPlaying)}
+      aria-disabled={isPlaying}
     />
     <Button
       {buttonSize}
@@ -109,7 +111,7 @@
       {buttonSize}
       disabled={gridSize <= 0}
       bg="#555"
-      on:click={_ => mutation -= 0.0001}
+      on:click={(_) => (mutation -= 0.0001)}
       label="decrease mutation odds"
     >
       <div class="control-icon">
@@ -128,7 +130,7 @@
       {buttonSize}
       disabled={mutation >= 0.002}
       bg="#555"
-      on:click={_ => mutation += 0.0001}
+      on:click={(_) => (mutation += 0.0001)}
       label="increase mutation odds"
     >
       <div class="control-icon">
@@ -138,10 +140,7 @@
   </label>
   <div class="label">Rules</div>
   <div class="rules">
-    <input
-      bind:value={rules}
-      pattern="^B\d+/S\d+$"
-    />
+    <input bind:value={ruleLabel} pattern="^B\d+/S\d+$" />
     <ul class="presets">
       {#each presets as preset}
         <li on:mousedown={setPreset(preset)}>{preset.description}</li>
@@ -261,6 +260,6 @@
   }
 
   .presets li:hover {
-    background: rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.1);
   }
 </style>
